@@ -4,6 +4,7 @@
 from __future__ import division
 from common import analyze_channels
 from common import parabolic as parabolic
+from common import midi_note_number, midi_note
 from numpy.fft import rfft
 from numpy import argmax, mean, diff, log, copy, arange
 from matplotlib.mlab import find
@@ -123,8 +124,10 @@ if __name__ == '__main__':
     try:
         import sys
         def freq_wrapper(signal, fs):
-            freq = freq_from_fft(signal, fs)
+            freq = freq_from_autocorr(signal, fs)
             print '%f Hz' % freq
+            nn = midi_note_number(freq)
+            print 'MIDI Note: %s (%d)' % (midi_note(nn), nn)
         
         files = sys.argv[1:]
         if files:

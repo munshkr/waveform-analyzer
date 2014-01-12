@@ -3,7 +3,7 @@
 
 from __future__ import division
 from scikits.audiolab import Sndfile
-from numpy import array_equal, polyfit, sqrt, mean, absolute, log10
+from numpy import array_equal, polyfit, sqrt, mean, absolute, log10, log2, trunc, divide
 from scipy.stats import gmean
 
 def load(filename):
@@ -100,3 +100,12 @@ def parabolic_polyfit(f, x, n):
     xv = -0.5 * b/a
     yv = a * xv**2 + b * xv + c
     return (xv, yv)
+
+def midi_note_number(freq):
+    return int(57 + 12 * log2(freq / 440))
+
+def midi_note(nn):
+    table = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    octave = divide(nn, 12)
+    note = table[nn % 12]
+    return "%s%s" % (note, octave)
